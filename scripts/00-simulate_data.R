@@ -33,8 +33,8 @@ simulated_stolen_vehicle_data <-
     number_of_stolen =
       rpois(
         n = 365 * 5,
-        lambda = 30
-      ) # Draw 1,095 times from the Poisson distribution
+        lambda = 10
+      ) # Draw 1,825 times from the Poisson distribution
   )
 
 head(simulated_stolen_vehicle_data)
