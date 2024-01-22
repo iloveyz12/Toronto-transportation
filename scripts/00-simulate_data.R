@@ -30,7 +30,7 @@ simulated_stolen_vehicle_data <-
       rep(x = "Apartment (Rooming House, Condo)", times = 365),
       rep(x = "Commercial Dwelling Unit (Hotel, Motel, B & B, Short Term Rental)", times = 365)
     ),
-    number_stolen =
+    number_of_stolen =
       rpois(
         n = 365 * 5,
         lambda = 30
