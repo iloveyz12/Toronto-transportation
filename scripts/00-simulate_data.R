@@ -21,20 +21,22 @@ set.seed(812)
 
 simulated_stolen_vehicle_data <-
   tibble(
-    date = rep(x = as.Date("2022-01-01") + c(0:364), times = 5),
+    date = rep(x = as.Date("2014-01-01") + c(0:364), times = 7),
     # Based on Eddelbuettel: https://stackoverflow.com/a/21502386
     location = c(
-      rep(x = "Parking Lots (Apt., Commercial Or Non-Commercial)", times = 365),
-      rep(x = "Streets, Roads, Highways (Bicycle Path, Private Road)", times = 365),
-      rep(x = "Single Home, House (Attach Garage, Cottage, Mobile)", times = 365),
-      rep(x = "Apartment (Rooming House, Condo)", times = 365),
-      rep(x = "Commercial Dwelling Unit (Hotel, Motel, B & B, Short Term Rental)", times = 365)
+      rep(x = "Apartment", times = 365),
+      rep(x = "Commercial", times = 365),
+      rep(x = "Educational", times = 365),
+      rep(x = "House", times = 365),
+      rep(x = "Other", times = 365),
+      rep(x = "Outside", times = 365),
+      rep(x = "Transit", times = 365)
     ),
     number_of_stolen =
       rpois(
-        n = 365 * 5,
+        n = 365 * 7,
         lambda = 10
-      ) # Draw 1,825 times from the Poisson distribution
+      ) # Draw 2,555 times from the Poisson distribution
   )
 
 head(simulated_stolen_vehicle_data)
