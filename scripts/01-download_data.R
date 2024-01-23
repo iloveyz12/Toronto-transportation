@@ -36,7 +36,7 @@ head(toronto_stolen_vehicle)
 toronto_stolen_vehicle_clean <-
   clean_names(toronto_stolen_vehicle) |>
   mutate(report_date = ymd(paste(report_year, report_month, report_day))) |> 
-  select(report_date, location_type ,x_id)
+  select(report_date, premises_type ,x_id)
 
 head(toronto_stolen_vehicle_clean)
 
