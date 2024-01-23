@@ -1,0 +1,97 @@
+---
+title: "Toronto Stolen Vehicles"
+author: 
+  - Zheng(Zeb) Yang
+thanks: "Code and data are available at: <https://github.com/iloveyz12/Toronto_Stolen_Vehicles.git>."
+date: today
+date-format: long
+abstract: "Theft from motor vehicle is one of the most commonly reported crimes in Canada. A dataset of all Theft from Motor Vehicle occurrences in Toronto is cleaned from the year 2020 to 2023 and the premises type is of interest to me. It was found that parking outside such as in the streets and parking lots is the largest proportion of vehicles stolen in Toronto over the years, followed by parking in apartments and houses."
+format: pdf
+number-sections: true
+bibliography: references.bib
+---
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+#### Workspace setup ####
+#install.packages("here")
+library(here)
+library(tidyverse)
+library(knitr)
+#### Import the data ####
+toronto_stolen_vehicle_clean <-
+  read_csv(here::here("outputs/data/cleaned_data.csv"),
+    show_col_types = FALSE
+  )
+
+```
+
+
+# Introduction
+
+Motor vehicle theft is one of the most commonly reported crimes in Canada. It is a frustrating and concerning issue in the City of Toronto. Auto theft is a highly lucrative, highly sophisticated trans-national crime that not only affects Canadians but empowers criminal organizations through the proceeds of crime[@Canada_2024]. The majority of stolen vehicles exported are destined for Africa and the Middle East. Some stolen vehicles also remain in Canada enabling other crimes to be committed with the vehicles and are destroyed afterwards[@Canada_2024]. 
+
+The objective of this study is to provide insight into the factor of location that influences vehicle theft from the year 2020 to 2023[@knitr]. In doing so, this study contributes to crime prevention and public safety.
+
+I accessed the dataset Theft from Motor Vehicle from Open Data Toronto[@opendatatoronto], which includes all Theft from Motor Vehicle occurrences by reported date[@City_of_Toronto_Open_Data_Portal]. The main variable of interest in this paper is the type of location or premises. It was found that the most common premises of vehicles stolen over the years is outside, such as on the streets or in parking lots. It is also worth noting that houses and apartments are second most stolen location. This is shown by the bar plot in the Data @sec-data.
+
+
+The remainder of this paper is structured as follows. @sec-data is the Data section that explains the variables and graph.
+
+
+
+# Data {#sec-data}
+
+The dataset including all Theft from Motor Vehicle occurrences by reported date in ten years in Toronto is downloaded and saved in R [@citeR] from the open source website Open Data Toronto. In the dataset, each row represents one vehicle stolen offence and there are 25 columns containing the date of report and offence occurred, offence number and identifier, and location and premises type which is our main interest of variable. After obtaining the dataset, I cleaned it by filtering and keeping the report year from 2020 to 2023 and selecting the report year and premises type columns since they are the variables we want to examine and study[@dplyr]. With the cleaned dataset, I summarized the vehicle stolen offence by the premises type within each year to get the number of stolen, for instance, the number of stolen vehicles in house in 2023 is 1404 as you can see in the Appendix  @sec-appen. Then, a bar plot is made and each color represents a type of premises[@ggplot2]. The x-axis is the report year and the y-axis is the number of stolen. Therefore, the graph clearly shows that the premises type of outside, such as parking on the streets and in the parking lots, has the largest proportion of stolen vehicles over the years [@tidyverse]. Also, parking in apartments and houses ranks as the second most number of stolen vehicles over the years in Toronto.
+
+```{r}
+#| label: fig-stolen
+#| fig-cap: Figure of number of stolen vehicle in Toronto
+#| echo: false
+
+toronto_stolen_vehicle_clean |>
+  mutate(report_year = year(
+    report_date
+  )) |>
+  filter(report_year >= 2020 & report_year <= 2023)|> 
+  group_by(report_year, premises_type) |> 
+  summarise(number_of_stolen = n(), .groups = "drop") |>
+
+  ggplot(aes(x=report_year, y=number_of_stolen,fill=premises_type))+geom_bar(stat = "identity", position = "stack")
+```
+
+
+
+\newpage
+
+\appendix
+
+# Appendix {#sec-appen}
+
+```{r}
+#| label: tbl-stolen
+#| tbl-cap: Table of number of stolen vehicle in Toronto
+#| echo: false
+
+toronto_stolen_vehicle_clean |>
+  mutate(report_year = year(
+    report_date
+  )) |>
+  filter(report_year >= 2020 & report_year <= 2023)|> 
+  group_by(report_year, premises_type) |> 
+  summarise(number_of_stolen = n(), .groups = "drop") |>
+
+  kable()
+```
+
+
+
+\newpage
+
+
+# References
+
+
